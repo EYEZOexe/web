@@ -5,15 +5,35 @@ export const GET_PRODUCTS = gql`
     products(take: $take, skip: $skip) {
       id
       name
+      slug
       description
-      price
+      type
       status
-      createdAt
-      updatedAt
+      price
+      compareAtPrice
+      currency
+      tags
+      downloadLimit
+      accessDuration
+      metaTitle
+      metaDescription
       category {
         id
         name
+        slug
+        description
       }
+      variants {
+        id
+        name
+        price
+        compareAtPrice
+        downloadLimit
+        accessDuration
+        isActive
+      }
+      createdAt
+      updatedAt
     }
   }
 `
@@ -23,28 +43,42 @@ export const GET_PRODUCT = gql`
     product(where: { id: $id }) {
       id
       name
+      slug
       description
-      price
+      type
       status
-      createdAt
-      updatedAt
+      price
+      compareAtPrice
+      currency
+      tags
+      downloadLimit
+      accessDuration
+      metaTitle
+      metaDescription
       category {
         id
         name
+        slug
+        description
       }
-      productFiles {
+      files {
         id
         file {
           filename
           url
         }
       }
-      productVariants {
+      variants {
         id
         name
         price
-        sku
+        compareAtPrice
+        downloadLimit
+        accessDuration
+        isActive
       }
+      createdAt
+      updatedAt
     }
   }
 `
@@ -54,8 +88,33 @@ export const GET_CATEGORIES = gql`
     categories {
       id
       name
+      slug
       description
       status
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export const GET_PRODUCT_VARIANTS = gql`
+  query GetProductVariants($where: ProductVariantWhereInput, $take: Int, $skip: Int) {
+    productVariants(where: $where, take: $take, skip: $skip) {
+      id
+      name
+      price
+      compareAtPrice
+      downloadLimit
+      accessDuration
+      isActive
+      sku
+      product {
+        id
+        name
+        slug
+      }
+      createdAt
+      updatedAt
     }
   }
 `

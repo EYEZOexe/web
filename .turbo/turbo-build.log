@@ -6,7 +6,7 @@
    - Environments: .env
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 1000ms
+ ✓ Compiled successfully in 2000ms
    Linting and checking validity of types ...
    Collecting page data ...
    Generating static pages (0/9) ...
@@ -24,7 +24,7 @@ Route (app)                                 Size  First Load JS
 ├ ○ /auth/error                          2.96 kB         113 kB
 ├ ○ /auth/signin                         3.47 kB         117 kB
 ├ ○ /auth/signup                         3.85 kB         117 kB
-└ ○ /products                            13.8 kB         139 kB
+└ ○ /products                            14.9 kB         140 kB
 + First Load JS shared by all            99.9 kB
   ├ chunks/130-c33d5c77796241cf.js       43.7 kB
   ├ chunks/8a4ef983-884c9eb2be1142fd.js  54.1 kB
