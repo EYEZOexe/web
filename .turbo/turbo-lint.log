@@ -1,4 +1,4 @@
 
-> @repo/web@0.1.0 lint C:\Users\NAT20\Desktop\new\apps\web
+> @repo/web@0.1.0 lint C:\Users\NAT20\Desktop\website\apps\web
 > eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0
 

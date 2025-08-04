@@ -1,103 +1,130 @@
-import Image from "next/image";
+"use client"
+
+import { useSession, signOut } from "next-auth/react"
+import Link from "next/link"
+import { Button } from "@repo/ui"
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { data: session, status } = useSession()
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Loading...</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <header className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Digital Products Platform</h1>
+        <div className="flex items-center space-x-4">
+          {session ? (
+            <>
+              <span className="text-sm text-gray-600">
+                Welcome, {session.user?.name || session.user?.email}
+              </span>
+              <Button
+                variant="outline"
+                onClick={() => signOut()}
+              >
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <div className="space-x-2">
+              <Link href="/auth/signin">
+                <Button variant="outline">Sign In</Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button>Sign Up</Button>
+              </Link>
+            </div>
+          )}
         </div>
+      </header>
+
+      <main className="max-w-4xl mx-auto">
+        <section className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">
+            Secure Digital Product Marketplace
+          </h2>
+          <p className="text-xl text-gray-600 mb-8">
+            Buy and sell digital products with confidence. 
+            Powered by Next.js, KeystoneJS, and NextAuth.js
+          </p>
+          
+          {!session && (
+            <div className="space-x-4">
+              <Link href="/auth/signup">
+                <Button size="lg">Get Started</Button>
+              </Link>
+              <Link href="/auth/signin">
+                <Button variant="outline" size="lg">Learn More</Button>
+              </Link>
+            </div>
+          )}
+        </section>
+
+        {session && (
+          <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="p-6 border rounded-lg">
+              <h3 className="text-xl font-semibold mb-2">Browse Products</h3>
+              <p className="text-gray-600 mb-4">
+                Discover amazing digital products from creators worldwide.
+              </p>
+              <Button>Browse Now</Button>
+            </div>
+            
+            <div className="p-6 border rounded-lg">
+              <h3 className="text-xl font-semibold mb-2">Sell Your Products</h3>
+              <p className="text-gray-600 mb-4">
+                Start selling your digital creations and earn revenue.
+              </p>
+              <Button>Start Selling</Button>
+            </div>
+            
+            <div className="p-6 border rounded-lg">
+              <h3 className="text-xl font-semibold mb-2">Manage Orders</h3>
+              <p className="text-gray-600 mb-4">
+                Track your purchases and downloads in one place.
+              </p>
+              <Button>View Orders</Button>
+            </div>
+          </section>
+        )}
+
+        <section className="bg-gray-50 p-8 rounded-lg">
+          <h3 className="text-2xl font-semibold mb-4">Platform Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-semibold mb-2">🔐 Secure Authentication</h4>
+              <p className="text-gray-600">
+                Multiple sign-in options with NextAuth.js including Google, GitHub, and email/password.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">💳 Stripe Integration</h4>
+              <p className="text-gray-600">
+                Secure payments powered by Stripe with automatic license generation.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">📁 File Management</h4>
+              <p className="text-gray-600">
+                Secure file uploads and downloads with access control.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">🎯 Admin Dashboard</h4>
+              <p className="text-gray-600">
+                Powerful KeystoneJS admin interface for content management.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }

@@ -1,30 +1,25 @@
 
-> @repo/web@0.1.0 build C:\Users\NAT20\Desktop\new\apps\web
+> @repo/web@0.1.0 build C:\Users\NAT20\Desktop\website\apps\web
 > next build
 
    ▲ Next.js 15.4.5
-   - Environments: .env.local
+   - Environments: .env.local, .env
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 0ms
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled successfully in 1000ms
    Linting and checking validity of types ...
    Collecting page data ...
-   Generating static pages (0/5) ...
-   Generating static pages (1/5) 
-   Generating static pages (2/5) 
-   Generating static pages (3/5) 
- ✓ Generating static pages (5/5)
-   Finalizing page optimization ...
-   Collecting build traces ...
-
-Route (app)                                 Size  First Load JS
-┌ ○ /                                    5.45 kB         105 kB
-└ ○ /_not-found                            993 B         101 kB
-+ First Load JS shared by all             100 kB
-  ├ chunks/009c0a79-59ec5df51290b9b9.js  54.1 kB
-  ├ chunks/588-071fe69cc83648c9.js       43.9 kB
-  └ other shared chunks (total)          1.97 kB
-
-
-○  (Static)  prerendered as static content
-
+unhandledRejection [Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- C:\Users\NAT20\Desktop\website\apps\web\.next\server\pages\_document.js
+- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\server\require.js
+- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\server\load-components.js
+- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\build\utils.js
+- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\build\worker.js
+- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\compiled\jest-worker\processChild.js] {
+  type: 'Error',
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ELIFECYCLE  Command failed with exit code 1.
