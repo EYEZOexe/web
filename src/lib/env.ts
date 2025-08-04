@@ -48,14 +48,20 @@ function validateEnv() {
         console.error(`  ${err.path.join('.')}: ${err.message}`)
       })
     }
-    process.exit(1)
+    // Only exit on server-side, throw on client-side
+    if (typeof window === 'undefined') {
+      process.exit(1)
+    } else {
+      throw new Error('Environment validation failed')
+    }
   }
 }
 
 // Client-safe environment for browser
 export function getClientEnv() {
   const clientEnv = clientSchema.parse({
-    NEXT_PUBLIC_KEYSTONE_URL: process.env.NEXT_PUBLIC_KEYSTONE_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -64,7 +70,8 @@ export function getClientEnv() {
 }
 
 // Validated environment variables (server-side only)
-export const env = validateEnv()
+// Only validate on server-side to avoid client-side issues
+export const env = typeof window === 'undefined' ? validateEnv() : {} as z.infer<typeof envSchema>
 
 // Type exports
 export type Env = z.infer<typeof envSchema>

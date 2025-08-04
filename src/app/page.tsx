@@ -45,6 +45,22 @@ export default function Home() {
         </div>
       </header>
 
+      <nav className="mb-8">
+        <div className="flex space-x-6 border-b border-gray-200 pb-4">
+          <Link href="/" className="text-gray-600 hover:text-gray-900 font-medium">
+            Home
+          </Link>
+          <Link href="/products" className="text-gray-600 hover:text-gray-900 font-medium">
+            Products
+          </Link>
+          {session && (
+            <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 font-medium">
+              Dashboard
+            </Link>
+          )}
+        </div>
+      </nav>
+
       <main className="max-w-4xl mx-auto">
         <section className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
