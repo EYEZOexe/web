@@ -1,0 +1,104 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - link "Digital Products Platform":
+    - /url: /
+  - text: Test Customer
+  - button "Sign Out"
+- complementary:
+  - navigation:
+    - heading "Dashboard" [level=2]
+    - link "📊 Overview Dashboard overview and statistics":
+      - /url: /dashboard
+    - link "📚 My Library Access your purchased products":
+      - /url: /dashboard/library
+    - link "🛍️ Orders View order history and status":
+      - /url: /dashboard/orders
+    - link "⬇️ Downloads Download history and files":
+      - /url: /dashboard/downloads
+    - link "⚙️ Account Manage your account settings":
+      - /url: /dashboard/account
+    - link "🛒 Browse Products Discover new products":
+      - /url: /products
+- main:
+  - heading "Dashboard" [level=1]
+  - paragraph: Welcome back, Test Customer
+  - paragraph: Total Spent
+  - paragraph: $0.00
+  - text: 💰
+  - paragraph: Total Orders
+  - paragraph: "0"
+  - text: 🛍️
+  - paragraph: Active Licenses
+  - paragraph: "0"
+  - text: 🔑
+  - link "📚 My Library Access your content":
+    - /url: /dashboard/library
+    - text: 📚
+    - heading "My Library" [level=3]
+    - paragraph: Access your content
+  - link "📋 Order History View past purchases":
+    - /url: /dashboard/orders
+    - text: 📋
+    - heading "Order History" [level=3]
+    - paragraph: View past purchases
+  - link "⬇️ Downloads Download history":
+    - /url: /dashboard/downloads
+    - text: ⬇️
+    - heading "Downloads" [level=3]
+    - paragraph: Download history
+  - link "🛒 Browse Products Discover new content":
+    - /url: /products
+    - text: 🛒
+    - heading "Browse Products" [level=3]
+    - paragraph: Discover new content
+  - heading "Recent Orders" [level=3]
+  - link "View All":
+    - /url: /dashboard/orders
+    - button "View All"
+  - text: 🛍️
+  - paragraph: No orders yet
+  - link "Browse Products":
+    - /url: /products
+    - button "Browse Products"
+  - heading "Quick Links" [level=3]
+  - link "⚙️ Account Settings Manage your profile":
+    - /url: /dashboard/account
+    - text: ⚙️
+    - paragraph: Account Settings
+    - paragraph: Manage your profile
+  - link "🔍 Browse Products Find new digital products":
+    - /url: /products
+    - text: 🔍
+    - paragraph: Browse Products
+    - paragraph: Find new digital products
+  - link "📧 Contact Support Get help with your account":
+    - /url: mailto:support@yoursite.com
+    - text: 📧
+    - paragraph: Contact Support
+    - paragraph: Get help with your account
+  - heading "🔧 Debug Info" [level=3]
+  - paragraph:
+    - strong: "Session User ID:"
+    - text: cmdxls47y00154mz9mwfizu4a
+  - paragraph:
+    - strong: "Session Email:"
+    - text: test.customer@example.com
+  - paragraph:
+    - strong: "Session Name:"
+    - text: Test Customer
+  - paragraph:
+    - strong: "Session Role:"
+    - text: customer
+  - paragraph:
+    - strong: "KeystoneJS Users (3):"
+  - list:
+    - listitem: cmdx4xli60000vxpbmd4ythmy - otzorta@gmail.com (customer)
+    - listitem: cmdx6mmzc000013x4o9bv06at - test@example.com (customer)
+    - listitem: cmdxls5uj00184mz9lqzw0cuv - test.customer@example.com (customer)
+  - heading "Apollo Client Test" [level=3]
+  - paragraph: Success!
+  - text: "{ \"users\": [ { \"__typename\": \"User\", \"id\": \"cmdx4xli60000vxpbmd4ythmy\", \"name\": \"thomas malandris\", \"email\": \"otzorta@gmail.com\" } ] }"
+- alert
+```

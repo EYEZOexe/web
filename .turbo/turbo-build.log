@@ -3,32 +3,45 @@
 > next build
 
    ▲ Next.js 15.4.5
-   - Environments: .env
+   - Environments: .env.local, .env
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 2000ms
+ ✓ Compiled successfully in 3.0s
    Linting and checking validity of types ...
    Collecting page data ...
-   Generating static pages (0/9) ...
-   Generating static pages (2/9) 
-   Generating static pages (4/9) 
-   Generating static pages (6/9) 
- ✓ Generating static pages (9/9)
+   Generating static pages (0/21) ...
+   Generating static pages (5/21) 
+   Generating static pages (10/21) 
+   Generating static pages (15/21) 
+ ✓ Generating static pages (21/21)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                 Size  First Load JS
-┌ ○ /                                     3.4 kB         117 kB
-├ ○ /_not-found                            993 B         101 kB
-├ ƒ /api/auth/[...nextauth]                122 B         100 kB
-├ ○ /auth/error                          2.96 kB         113 kB
-├ ○ /auth/signin                         3.47 kB         117 kB
-├ ○ /auth/signup                         3.85 kB         117 kB
-└ ○ /products                            14.9 kB         140 kB
-+ First Load JS shared by all            99.9 kB
-  ├ chunks/130-c33d5c77796241cf.js       43.7 kB
-  ├ chunks/8a4ef983-884c9eb2be1142fd.js  54.1 kB
-  └ other shared chunks (total)          1.99 kB
+┌ ○ /                                    3.41 kB         116 kB
+├ ○ /_not-found                            995 B         100 kB
+├ ƒ /api/auth/[...nextauth]                137 B        99.4 kB
+├ ƒ /api/content/access                    137 B        99.4 kB
+├ ƒ /api/content/download/drive            137 B        99.4 kB
+├ ƒ /api/content/video/youtube             137 B        99.4 kB
+├ ƒ /api/stripe/checkout                   137 B        99.4 kB
+├ ƒ /api/stripe/webhook                    137 B        99.4 kB
+├ ○ /auth/error                          2.97 kB         113 kB
+├ ○ /auth/signin                         3.49 kB         116 kB
+├ ○ /auth/signup                         3.87 kB         117 kB
+├ ○ /content-demo                        4.38 kB         111 kB
+├ ƒ /dashboard                           1.89 kB         148 kB
+├ ƒ /dashboard/account                   2.67 kB         151 kB
+├ ƒ /dashboard/downloads                 1.97 kB         148 kB
+├ ƒ /dashboard/library                   1.98 kB         153 kB
+├ ƒ /dashboard/orders                    1.91 kB         148 kB
+├ ○ /payment/cancel                        164 B         103 kB
+├ ƒ /payment/success                       164 B         103 kB
+└ ○ /products                            5.66 kB         141 kB
++ First Load JS shared by all            99.3 kB
+  ├ chunks/382-3f9a64f8cfd17973.js       43.2 kB
+  ├ chunks/3a200caf-b1bd86d89d3a3e4e.js  54.1 kB
+  └ other shared chunks (total)             2 kB
 
 
 ƒ Middleware                             99.6 kB

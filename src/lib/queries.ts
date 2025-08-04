@@ -1,5 +1,16 @@
 import { gql } from '@apollo/client'
 
+// Test query to check API connection
+export const TEST_CONNECTION = gql`
+  query TestConnection {
+    users(take: 1) {
+      id
+      name
+      email
+    }
+  }
+`
+
 // Enhanced product queries with variants and categories
 export const GET_PRODUCTS = gql`
   query GetProducts {
@@ -144,7 +155,7 @@ export const GET_CATEGORY_WITH_PRODUCTS = gql`
 
 export const GET_FEATURED_PRODUCTS = gql`
   query GetFeaturedProducts($limit: Int = 6) {
-    products(take: $limit, where: { status: { equals: "active" } }) {
+    products(take: $limit, where: { status: { equals: active } }) {
       id
       name
       slug
@@ -175,7 +186,7 @@ export const SEARCH_PRODUCTS = gql`
     products(
       where: {
         AND: [
-          { status: { equals: "active" } }
+          { status: { equals: active } }
           {
             OR: [
               { name: { contains: $searchTerm, mode: insensitive } }
@@ -198,6 +209,200 @@ export const SEARCH_PRODUCTS = gql`
         name
         slug
       }
+    }
+  }
+`
+
+// ======================
+// USER DASHBOARD QUERIES
+// ======================
+
+// Get user profile with basic information
+export const GET_USER_PROFILE = gql`
+  query GetUserProfile($userId: ID!) {
+    user(where: { id: $userId }) {
+      id
+      name
+      email
+      role
+      isActive
+      bio
+      avatar {
+        id
+        filesize
+        width
+        height
+        extension
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+// Get user's orders with detailed information
+export const GET_USER_ORDERS = gql`
+  query GetUserOrders($userId: ID!) {
+    orders(
+      where: { customer: { id: { equals: $userId } } }
+      orderBy: { createdAt: desc }
+    ) {
+      id
+      orderNumber
+      status
+      paymentStatus
+      subtotal
+      tax
+      total
+      currency
+      customerEmail
+      stripePaymentIntentId
+      orderItems {
+        id
+        productName
+        variantName
+        unitPrice
+        quantity
+        totalPrice
+        downloadLimit
+        accessDuration
+        product {
+          id
+          name
+          slug
+          type
+          featuredImage {
+            url
+          }
+        }
+        license {
+          id
+          licenseKey
+          status
+          downloadCount
+          downloadLimit
+          expiresAt
+          lastAccessedAt
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+// Get user's licenses and access rights
+export const GET_USER_LICENSES = gql`
+  query GetUserLicenses($userId: ID!) {
+    licenses(
+      where: { user: { id: { equals: $userId } } }
+      orderBy: { createdAt: desc }
+    ) {
+      id
+      licenseKey
+      status
+      downloadCount
+      downloadLimit
+      expiresAt
+      lastAccessedAt
+      orderItem {
+        id
+        productName
+        variantName
+        product {
+          id
+          name
+          slug
+          type
+          description
+          featuredImage {
+            url
+          }
+          files {
+            id
+            name
+            description
+            fileSize
+            mimeType
+            isPublic
+          }
+        }
+      }
+      downloads {
+        id
+        fileName
+        fileSize
+        status
+        createdAt
+      }
+      createdAt
+    }
+  }
+`
+
+// Get user's download history
+export const GET_USER_DOWNLOADS = gql`
+  query GetUserDownloads($userId: ID!) {
+    downloads(
+      where: { license: { user: { id: { equals: $userId } } } }
+      orderBy: { createdAt: desc }
+    ) {
+      id
+      fileName
+      fileSize
+      status
+      ipAddress
+      license {
+        licenseKey
+        orderItem {
+          productName
+          product {
+            name
+            slug
+          }
+        }
+      }
+      productFile {
+        id
+        name
+        description
+        mimeType
+      }
+      createdAt
+    }
+  }
+`
+
+// Get user statistics for dashboard
+export const GET_USER_DASHBOARD_STATS = gql`
+  query GetUserDashboardStats($userId: ID!) {
+    user(where: { id: $userId }) {
+      id
+      name
+      email
+      orders(where: { status: { not: { equals: cancelled } } }) {
+        id
+        total
+        status
+        createdAt
+      }
+      licenses {
+        id
+        status
+        expiresAt
+      }
+    }
+  }
+`
+
+// Query to find user by email for order linking
+export const GET_USER_BY_EMAIL = gql`
+  query GetUserByEmail($email: String!) {
+    users(where: { email: { equals: $email } }, take: 1) {
+      id
+      email
+      name
     }
   }
 `

@@ -90,7 +90,9 @@ export default function Home() {
               <p className="text-gray-600 mb-4">
                 Discover amazing digital products, courses, and licenses.
               </p>
-              <Button>Browse Now</Button>
+              <Link href="/products">
+                <Button>Browse Now</Button>
+              </Link>
             </div>
             
             <div className="p-6 border rounded-lg">
@@ -98,7 +100,9 @@ export default function Home() {
               <p className="text-gray-600 mb-4">
                 Access your purchased courses, files, and licenses.
               </p>
-              <Button>View Library</Button>
+              <Link href="/dashboard/library">
+                <Button>View Library</Button>
+              </Link>
             </div>
             
             <div className="p-6 border rounded-lg">
@@ -106,7 +110,9 @@ export default function Home() {
               <p className="text-gray-600 mb-4">
                 Track your purchases and download history.
               </p>
-              <Button>View Orders</Button>
+              <Link href="/dashboard/orders">
+                <Button>View Orders</Button>
+              </Link>
             </div>
           </section>
         )}

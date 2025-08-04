@@ -1,0 +1,277 @@
+
+> @repo/web@0.1.0 test C:\Users\NAT20\Desktop\website\apps\web
+> vitest run
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/NAT20/Desktop/website/apps/web[39m
+
+ [32m✓[39m src/lib/stripe/__tests__/service.test.ts [2m([22m[2m10 tests[22m[2m)[22m[90m 16[2mms[22m[39m
+[90mstderr[2m | src/app/api/stripe/checkout/__tests__/route.test.ts[2m > [22m[2m/api/stripe/checkout[2m > [22m[2mhandles missing required fields
+[22m[39mCheckout API error: ZodError: [
+  {
+    "code": "invalid_type",
+ [32m✓[39m src/app/api/stripe/checkout/__tests__/route.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 43[2mms[22m[39m
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "productName"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "productDescription"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "number",
+    "received": "undefined",
+    "path": [
+      "price"
+    ],
+    "message": "Required"
+  },
+  {
+    "expected": "'course' | 'file' | 'license'",
+    "received": "undefined",
+    "code": "invalid_type",
+    "path": [
+      "productType"
+    ],
+    "message": "Required"
+  }
+]
+    at Object.get error [as error] (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/zod@3.25.76/node_modules/[4mzod[24m/v3/types.js:39:31)
+    at ZodObject.parse (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/zod@3.25.76/node_modules/[4mzod[24m/v3/types.js:114:22)
+    at POST [90m(C:\Users\NAT20\Desktop\website\apps\web\[39msrc\app\api\stripe\checkout\route.ts:27:49[90m)[39m
+    at [90mC:\Users\NAT20\Desktop\website\apps\web\[39msrc\app\api\stripe\checkout\__tests__\route.test.ts:74:22
+    at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:533:5
+    at runTest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1056:11)
+    at runSuite (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1205:15)
+    at runSuite (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1205:15)
+    at runFiles (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1262:5)
+    at startTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1271:3) {
+  issues: [
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'string'[39m,
+      received: [32m'undefined'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    },
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'string'[39m,
+      received: [32m'undefined'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    },
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'number'[39m,
+      received: [32m'undefined'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    },
+    {
+      expected: [32m"'course' | 'file' | 'license'"[39m,
+      received: [32m'undefined'[39m,
+      code: [32m'invalid_type'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    }
+  ],
+  addIssue: [36m[Function (anonymous)][39m,
+  addIssues: [36m[Function (anonymous)][39m,
+  errors: [
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'string'[39m,
+      received: [32m'undefined'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    },
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'string'[39m,
+      received: [32m'undefined'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    },
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'number'[39m,
+      received: [32m'undefined'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    },
+    {
+      expected: [32m"'course' | 'file' | 'license'"[39m,
+      received: [32m'undefined'[39m,
+      code: [32m'invalid_type'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Required'[39m
+    }
+  ]
+}
+
+[90mstderr[2m | src/app/api/stripe/checkout/__tests__/route.test.ts[2m > [22m[2m/api/stripe/checkout[2m > [22m[2mhandles Stripe errors
+[22m[39mCheckout API error: Error: Stripe API error
+    at [90mC:\Users\NAT20\Desktop\website\apps\web\[39msrc\app\api\stripe\checkout\__tests__\route.test.ts:79:49
+    at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:146:14
+    at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:533:11
+    at runWithTimeout (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:39:7)
+    at runTest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1056:17)
+    at runSuite (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1205:15)
+    at runSuite (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1205:15)
+    at runFiles (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1262:5)
+    at startTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1271:3)
+    at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:126:11
+
+[90mstderr[2m | src/app/api/stripe/checkout/__tests__/route.test.ts[2m > [22m[2m/api/stripe/checkout[2m > [22m[2mvalidates price format
+[22m[39mCheckout API error: ZodError: [
+  {
+    "code": "invalid_type",
+    "expected": "number",
+    "received": "string",
+    "path": [
+      "price"
+    ],
+    "message": "Expected number, received string"
+  }
+]
+    at Object.get error [as error] (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/zod@3.25.76/node_modules/[4mzod[24m/v3/types.js:39:31)
+    at ZodObject.parse (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/zod@3.25.76/node_modules/[4mzod[24m/v3/types.js:114:22)
+    at POST [90m(C:\Users\NAT20\Desktop\website\apps\web\[39msrc\app\api\stripe\checkout\route.ts:27:49[90m)[39m
+    at [90mC:\Users\NAT20\Desktop\website\apps\web\[39msrc\app\api\stripe\checkout\__tests__\route.test.ts:108:22
+    at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:533:5
+    at runTest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1056:11)
+    at runSuite (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1205:15)
+    at runSuite (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1205:15)
+    at runFiles (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1262:5)
+    at startTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1271:3) {
+  issues: [
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'number'[39m,
+      received: [32m'string'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Expected number, received string'[39m
+    }
+  ],
+  addIssue: [36m[Function (anonymous)][39m,
+  addIssues: [36m[Function (anonymous)][39m,
+  errors: [
+    {
+      code: [32m'invalid_type'[39m,
+      expected: [32m'number'[39m,
+      received: [32m'string'[39m,
+      path: [36m[Array][39m,
+      message: [32m'Expected number, received string'[39m
+    }
+  ]
+}
+
+[90mstderr[2m | src/components/purchase/__tests__/purchase-button.test.tsx[2m > [22m[2mPurchaseButton Component[2m > [22m[2mhandles API errors gracefully
+[22m[39mPurchase error: Error: Payment failed
+    at handlePurchase [90m(C:\Users\NAT20\Desktop\website\apps\web\[39msrc\components\purchase\purchase-button.tsx:77:15[90m)[39m
+
+[90mstderr[2m | src/components/purchase/__tests__/purchase-button.test.tsx[2m > [22m[2mPurchaseButton Component[2m > [22m[2mhandles Stripe redirect errors
+[22m[39mPurchase error: Error: Invalid checkout session response
+    at handlePurchase [90m(C:\Users\NAT20\Desktop\website\apps\web\[39msrc\components\purchase\purchase-button.tsx:81:15[90m)[39m
+
+ [32m✓[39m src/components/purchase/__tests__/purchase-button.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[90m 67[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/auth.test.tsx [2m([22m[2m11 tests[22m[2m)[22m[90m 57[2mms[22m[39m
+[90mstderr[2m | src/components/products/__tests__/products-list.test.tsx[2m > [22m[2mProductsList Component[2m > [22m[2mrenders loading state initially
+[22m[39mNo more mocked responses for the query: query GetProducts($take: Int, $skip: Int) {
+  products(take: $take, skip: $skip) {
+    id
+    name
+    slug
+    description
+    type
+    status
+    price
+    compareAtPrice
+    currency
+    tags
+    downloadLimit
+    accessDuration
+    metaTitle
+    metaDescription
+    category {
+      id
+      name
+      slug
+      description
+    }
+    variants {
+      id
+      name
+      price
+      compareAtPrice
+      downloadLimit
+      accessDuration
+      isActive
+    }
+    createdAt
+    updatedAt
+  }
+}
+Expected variables: {"take":10,"skip":0}
+
+This typically indicates a configuration error in your mocks setup, usually due to a typo or mismatched variable.
+
+[90mstderr[2m | src/components/products/__tests__/products-list.test.tsx[2m > [22m[2mProductsList Component[2m > [22m[2mhandles GraphQL errors gracefully
+[22m[39mGraphQL Error: ApolloError: GraphQL error
+    at new ApolloError (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\@apollo+client@3.13.9_@types+react@19.1.9_graphql@16.11.0_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\[4m@apollo[24m\client\errors\index.js:40:28)
+    at C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\@apollo+client@3.13.9_@types+react@19.1.9_graphql@16.11.0_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\[4m@apollo[24m\client\core\QueryManager.js:820:71
+    at both (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\@apollo+client@3.13.9_@types+react@19.1.9_graphql@16.11.0_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\[4m@apollo[24m\client\utilities\observables\asyncMap.js:22:31)
+    at C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\@apollo+client@3.13.9_@types+react@19.1.9_graphql@16.11.0_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\[4m@apollo[24m\client\utilities\observables\asyncMap.js:11:72
+    at new Promise (<anonymous>)
+    at Object.then (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\@apollo+client@3.13.9_@types+react@19.1.9_graphql@16.11.0_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\[4m@apollo[24m\client\utilities\observables\asyncMap.js:11:24)
+    at Object.error (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\@apollo+client@3.13.9_@types+react@19.1.9_graphql@16.11.0_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\[4m@apollo[24m\client\utilities\observables\asyncMap.js:24:49)
+    at notifySubscription (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\zen-observable@0.8.15\node_modules\[4mzen-observable[24m\lib\Observable.js:140:18)
+    at onNotify (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\zen-observable@0.8.15\node_modules\[4mzen-observable[24m\lib\Observable.js:179:3)
+    at SubscriptionObserver.error (C:\Users\NAT20\Desktop\website\node_modules\[4m.pnpm[24m\zen-observable@0.8.15\node_modules\[4mzen-observable[24m\lib\Observable.js:240:7) {
+  graphQLErrors: [],
+  protocolErrors: [],
+  clientErrors: [],
+  networkError: Error: GraphQL error
+      at [90mC:\Users\NAT20\Desktop\website\apps\web\[39msrc\components\products\__tests__\products-list.test.tsx:91:12
+      at VitestExecutor.runModule (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:399:5)
+      at VitestExecutor.directRequest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:381:5)
+      at VitestExecutor.cachedRequest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:206:14)
+      at VitestExecutor.executeId (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:173:12)
+      at collectTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:851:7)
+      at startTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1268:17)
+      at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:126:11
+      at withEnv (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:90:5)
+      at run (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:112:3),
+  extraInfo: [90mundefined[39m,
+  cause: Error: GraphQL error
+      at [90mC:\Users\NAT20\Desktop\website\apps\web\[39msrc\components\products\__tests__\products-list.test.tsx:91:12
+      at VitestExecutor.runModule (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:399:5)
+      at VitestExecutor.directRequest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:381:5)
+      at VitestExecutor.cachedRequest (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:206:14)
+      at VitestExecutor.executeId (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vite-node@2.1.9_@types+node@20.19.9_lightningcss@1.30.1/node_modules/[4mvite-node[24m/dist/client.mjs:173:12)
+      at collectTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:851:7)
+      at startTests (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/@vitest+runner@2.1.9/node_modules/[4m@vitest[24m/runner/dist/index.js:1268:17)
+      at file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:126:11
+      at withEnv (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:90:5)
+      at run (file:///C:/Users/NAT20/Desktop/website/node_modules/[4m.pnpm[24m/vitest@2.1.9_@types+node@20.19.9_jsdom@26.1.0_lightningcss@1.30.1_msw@2.10.4_@types+node@20.19.9_typescript@5.9.2_/node_modules/[4mvitest[24m/dist/chunks/runBaseTests.3qpJUEJM.js:112:3)
+}
+
+ [32m✓[39m src/components/products/__tests__/products-list.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[90m 160[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m38 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 00:07:58
+[2m   Duration [22m 1.92s[2m (transform 211ms, setup 710ms, collect 1.20s, tests 343ms, environment 2.76s, prepare 739ms)[22m
+

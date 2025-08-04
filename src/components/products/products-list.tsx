@@ -3,6 +3,7 @@
 import { useQuery } from '@apollo/client'
 import { GET_PRODUCTS } from '@/lib/graphql/queries'
 import { Card } from '@repo/ui'
+import PurchaseButton from '@/components/purchase/purchase-button'
 
 // Type definitions for our enhanced product data
 interface ProductVariant {
@@ -29,8 +30,8 @@ interface Product {
   description?: string
   type: 'course' | 'file' | 'license' | 'subscription'
   status: 'draft' | 'active' | 'archived' | 'PUBLISHED'
-  price: number
-  compareAtPrice?: number
+  price: number | string  // Can be number or string from GraphQL
+  compareAtPrice?: number | string
   currency: string
   tags?: string
   downloadLimit?: number
@@ -54,11 +55,21 @@ export default function ProductsList() {
     notifyOnNetworkStatusChange: true,
   })
 
-  const formatPrice = (price: number, currency: string = 'USD') => {
+  const formatPrice = (price: number | string | undefined, currency: string = 'USD') => {
+    if (price === undefined || price === null) return '$0.00'
+    
+    let numPrice: number
+    if (typeof price === 'string') {
+      numPrice = parseFloat(price)
+      if (isNaN(numPrice)) return '$0.00'
+    } else {
+      numPrice = price
+    }
+    
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: currency,
-    }).format(price / 100)
+    }).format(numPrice) // Remove the /100 since our prices are already in dollars
   }
 
   const getProductTypeColor = (type: string) => {
@@ -174,7 +185,7 @@ export default function ProductsList() {
             ? (typeof variantPriceRange === 'number' 
                 ? variantPriceRange 
                 : variantPriceRange.min)
-            : product.price
+            : (typeof product.price === 'string' ? parseFloat(product.price) : product.price)
 
           return (
             <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -250,9 +261,16 @@ export default function ProductsList() {
                   )}
                 </div>
 
-                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
-                  View Details
-                </button>
+                <PurchaseButton
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    description: product.description || '',
+                    price: displayPrice,
+                    currency: product.currency || 'USD',
+                    type: product.type as 'course' | 'file' | 'license'
+                  }}
+                />
               </div>
             </Card>
           )
