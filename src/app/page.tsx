@@ -72,23 +72,23 @@ export default function Home() {
             <div className="p-6 border rounded-lg">
               <h3 className="text-xl font-semibold mb-2">Browse Products</h3>
               <p className="text-gray-600 mb-4">
-                Discover amazing digital products from creators worldwide.
+                Discover amazing digital products, courses, and licenses.
               </p>
               <Button>Browse Now</Button>
             </div>
             
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-semibold mb-2">Sell Your Products</h3>
+              <h3 className="text-xl font-semibold mb-2">My Library</h3>
               <p className="text-gray-600 mb-4">
-                Start selling your digital creations and earn revenue.
+                Access your purchased courses, files, and licenses.
               </p>
-              <Button>Start Selling</Button>
+              <Button>View Library</Button>
             </div>
             
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-semibold mb-2">Manage Orders</h3>
+              <h3 className="text-xl font-semibold mb-2">Order History</h3>
               <p className="text-gray-600 mb-4">
-                Track your purchases and downloads in one place.
+                Track your purchases and download history.
               </p>
               <Button>View Orders</Button>
             </div>

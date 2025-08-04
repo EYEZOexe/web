@@ -6,20 +6,32 @@
    - Environments: .env.local, .env
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully in 1000ms
    Linting and checking validity of types ...
    Collecting page data ...
-unhandledRejection [Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
-Require stack:
-- C:\Users\NAT20\Desktop\website\apps\web\.next\server\pages\_document.js
-- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\server\require.js
-- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\server\load-components.js
-- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\build\utils.js
-- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\build\worker.js
-- C:\Users\NAT20\Desktop\website\node_modules\.pnpm\next@15.4.5_react-dom@19.1.0_react@19.1.0__react@19.1.0\node_modules\next\dist\compiled\jest-worker\processChild.js] {
-  type: 'Error',
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [Array]
-}
- ELIFECYCLE  Command failed with exit code 1.
+   Generating static pages (0/8) ...
+   Generating static pages (2/8) 
+   Generating static pages (4/8) 
+   Generating static pages (6/8) 
+ ✓ Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    3.31 kB         117 kB
+├ ○ /_not-found                            993 B         101 kB
+├ ƒ /api/auth/[...nextauth]                122 B         100 kB
+├ ○ /auth/error                          2.95 kB         113 kB
+├ ○ /auth/signin                         3.46 kB         117 kB
+└ ○ /auth/signup                         3.84 kB         117 kB
++ First Load JS shared by all            99.9 kB
+  ├ chunks/130-c33d5c77796241cf.js       43.7 kB
+  ├ chunks/8a4ef983-884c9eb2be1142fd.js  54.1 kB
+  └ other shared chunks (total)          1.99 kB
+
+
+ƒ Middleware                             99.6 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
