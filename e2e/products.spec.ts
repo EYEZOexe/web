@@ -189,8 +189,8 @@ test.describe('Products Page', () => {
       await page.goto('/products')
       await page.waitForLoadState('networkidle')
       
-      // Should show error state
-      await expect(page.locator('text=/error|failed|something went wrong/i')).toBeVisible({ timeout: 10000 })
+      // Should show error state - be more specific about the error element
+      await expect(page.locator('[role="alert"], .error, .error-message').filter({ hasText: /error|failed|something went wrong/i }).first()).toBeVisible({ timeout: 10000 })
     })
 
     test('should handle network timeout', async ({ page }) => {

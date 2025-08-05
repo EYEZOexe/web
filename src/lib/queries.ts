@@ -67,6 +67,9 @@ export const GET_PRODUCT = gql`
       accessDuration
       metaTitle
       metaDescription
+      featuredImage {
+        url
+      }
       category {
         id
         name
@@ -89,6 +92,9 @@ export const GET_PRODUCT = gql`
         fileSize
         mimeType
         isPublic
+        url
+        driveFileId
+        youtubeVideoId
         sortOrder
       }
       createdAt
@@ -391,6 +397,58 @@ export const GET_USER_DASHBOARD_STATS = gql`
         id
         status
         expiresAt
+      }
+    }
+  }
+`
+
+// Get detailed license information for content access
+export const GET_USER_LICENSE_DETAILS = gql`
+  query GetUserLicenseDetails($licenseId: ID!) {
+    license(where: { id: $licenseId }) {
+      id
+      licenseKey
+      status
+      downloadCount
+      downloadLimit
+      expiresAt
+      lastAccessedAt
+      orderItem {
+        id
+        productName
+        variantName
+        product {
+          id
+          name
+          slug
+          type
+          description
+          featuredImage {
+            url
+          }
+          files {
+            id
+            name
+            description
+            fileSize
+            mimeType
+            isPublic
+            driveFileId
+            youtubeVideoId
+          }
+        }
+      }
+      downloads {
+        id
+        fileName
+        fileSize
+        status
+        createdAt
+      }
+      createdAt
+      user {
+        id
+        email
       }
     }
   }

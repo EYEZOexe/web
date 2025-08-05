@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import { Button } from '@repo/ui'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@repo/ui'
-import { FileText, Video, Download, ExternalLink, Clock } from 'lucide-react'
+import { FileText, Video, ExternalLink, Clock } from 'lucide-react'
 
 interface ContentFile {
   id: string
   name: string
-  contentType: 'pdf' | 'docx' | 'video'
+  contentType: 'pdf' | 'docx' | 'video' | 'file'
   description?: string
   googleDriveShareableLink?: string
   youtubeUnlistedLink?: string
@@ -67,14 +67,8 @@ export function ContentViewer({ files, userHasAccess = false, className }: Conte
       if (result.success && result.accessUrl) {
         setAccessResults(prev => ({ ...prev, [fileId]: result }))
         
-        // For documents, open in new tab immediately
-        if (result.contentType === 'document') {
-          window.open(result.accessUrl, '_blank')
-        }
-        // For videos, we'll show the embed or redirect
-        else if (result.contentType === 'video') {
-          window.open(result.accessUrl, '_blank')
-        }
+        // Store the access result but don't automatically open
+        // Let the user choose when to open via the buttons
       } else {
         setErrors(prev => ({ ...prev, [fileId]: result.error || 'Failed to access content' }))
       }
@@ -103,6 +97,7 @@ export function ContentViewer({ files, userHasAccess = false, className }: Conte
     switch (contentType) {
       case 'pdf':
       case 'docx':
+      case 'file':
         return <FileText className="h-5 w-5" />
       case 'video':
         return <Video className="h-5 w-5" />
@@ -119,6 +114,8 @@ export function ContentViewer({ files, userHasAccess = false, className }: Conte
         return 'Word Document'
       case 'video':
         return 'Video'
+      case 'file':
+        return 'File Download'
       default:
         return 'File'
     }
@@ -179,6 +176,21 @@ export function ContentViewer({ files, userHasAccess = false, className }: Conte
                       </div>
                     </div>
                   )}
+
+                  {accessResult.contentType === 'document' && accessResult.embedUrl && (
+                    <div className="mt-3">
+                      <div className="h-96 border rounded">
+                        <iframe
+                          src={accessResult.embedUrl}
+                          className="w-full h-full rounded"
+                          title={accessResult.title || file.name}
+                        />
+                      </div>
+                      <div className="mt-2 text-xs text-green-600">
+                        Document is embedded above. If it doesn&apos;t load, use the &quot;Open Direct&quot; button below.
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>
@@ -200,9 +212,9 @@ export function ContentViewer({ files, userHasAccess = false, className }: Conte
                       {file.contentType === 'video' ? (
                         <Video className="h-4 w-4" />
                       ) : (
-                        <Download className="h-4 w-4" />
+                        <FileText className="h-4 w-4" />
                       )}
-                      {file.contentType === 'video' ? 'Watch Video' : 'Download'}
+                      {file.contentType === 'video' ? 'Watch Video' : 'View Document'}
                     </>
                   )}
                 </Button>

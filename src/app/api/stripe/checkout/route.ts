@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { auth } from '@/auth'
 import { createCheckoutSession } from '@/lib/stripe/service'
 import type { ProductForCheckout } from '@/lib/stripe/service'
 
@@ -22,9 +23,15 @@ const CheckoutRequestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Get user session to auto-populate email
+    const session = await auth()
+    
     // Parse and validate request body
     const body = await request.json()
     const validatedData = CheckoutRequestSchema.parse(body)
+
+    // Use session email as default if user is logged in and no email provided
+    const customerEmail = validatedData.customerEmail || session?.user?.email || undefined
 
     // Prepare product data for Stripe
     const productForCheckout: ProductForCheckout = {
@@ -40,7 +47,7 @@ export async function POST(request: NextRequest) {
     // Create checkout session
     const checkoutData = await createCheckoutSession(
       productForCheckout,
-      validatedData.customerEmail,
+      customerEmail,
       validatedData.metadata
     )
 

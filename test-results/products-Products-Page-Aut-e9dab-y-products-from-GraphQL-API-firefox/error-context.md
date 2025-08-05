@@ -2,7 +2,7 @@
 
 ```yaml
 - heading "Products" [level=1]
-- heading "Products (3)" [level=1]
+- heading "Products (6)" [level=1]
 - combobox:
   - option "All Types" [selected]
   - option "Courses"
@@ -14,19 +14,42 @@
   - option "Low to High"
   - option "High to Low"
 - text: Course Available
-- heading "Complete Web Development Masterclass" [level=3]
-- paragraph: Learn modern web development with React, Next.js, and TypeScript. Build real-world projects and master full-stack development.
-- text: $99.00 1 year access 5 downloads
-- button "Buy Now - $99.00"
+- heading "Complete Next.js 15 Course" [level=3]
+- paragraph: Web Development Courses
+- paragraph: Master Next.js 15 with App Router, TypeScript, and modern React patterns
+- text: $149.99 $249.99 1 year access
+- button "Buy Now - $149.99"
 - text: File Available
-- heading "Premium Design Templates Pack" [level=3]
-- paragraph: Collection of high-quality design templates for websites, apps, and marketing materials. Includes PSD, Sketch, and Figma files.
-- text: $49.00 $99.00 3 downloads
-- button "Buy Now - $49.00"
-- text: License Available
-- heading "Advanced Analytics Pro License" [level=3]
-- paragraph: Professional analytics software license with advanced reporting, custom dashboards, and API access. Perfect for businesses and developers.
-- text: $299.00 $499.00 1 year access
-- button "Buy Now - $299.00"
+- heading "React TypeScript Starter Kit" [level=3]
+- paragraph: Development Tools
+- paragraph: Production-ready React TypeScript template with best practices
+- text: $29.99 $49.99 5 downloads
+- button "Buy Now - $29.99"
+- text: File Available
+- heading "UI Design System Pro" [level=3]
+- paragraph: UI/UX Design
+- paragraph: Comprehensive UI design system with components, patterns, and guidelines
+- text: $199.99 $299.99 3 downloads
+- button "Buy Now - $199.99"
+- text: Course Available
+- heading "Complete Next.js 15 Course" [level=3]
+- paragraph: Web Development Courses
+- paragraph: Master Next.js 15 with App Router, TypeScript, and modern React patterns
+- text: $0.00 $249.99
+- paragraph: 1 variant available
+- text: 1 year access
+- button "Buy Now - $0.00"
+- text: File Available
+- heading "React TypeScript Starter Kit" [level=3]
+- paragraph: Development Tools
+- paragraph: Production-ready React TypeScript template with best practices
+- text: $29.99 $49.99 5 downloads
+- button "Buy Now - $29.99"
+- text: File Available
+- heading "UI Design System Pro" [level=3]
+- paragraph: UI/UX Design
+- paragraph: Comprehensive UI design system with components, patterns, and guidelines
+- text: $199.99 $299.99 3 downloads
+- button "Buy Now - $199.99"
 - alert
 ```

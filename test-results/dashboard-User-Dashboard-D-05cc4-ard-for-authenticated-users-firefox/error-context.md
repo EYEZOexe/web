@@ -4,7 +4,7 @@
 - banner:
   - link "Digital Products Platform":
     - /url: /
-  - text: Test Customer
+  - text: Test Dashboard User
   - button "Sign Out"
 - complementary:
   - navigation:
@@ -23,7 +23,7 @@
       - /url: /products
 - main:
   - heading "Dashboard" [level=1]
-  - paragraph: Welcome back, Test Customer
+  - paragraph: Welcome back,
   - paragraph: Total Spent
   - paragraph: $0.00
   - text: 💰
@@ -78,25 +78,6 @@
     - text: 📧
     - paragraph: Contact Support
     - paragraph: Get help with your account
-  - heading "🔧 Debug Info" [level=3]
-  - paragraph:
-    - strong: "Session User ID:"
-    - text: cmdxls47y00154mz9mwfizu4a
-  - paragraph:
-    - strong: "Session Email:"
-    - text: test.customer@example.com
-  - paragraph:
-    - strong: "Session Name:"
-    - text: Test Customer
-  - paragraph:
-    - strong: "Session Role:"
-    - text: customer
-  - paragraph:
-    - strong: "KeystoneJS Users (3):"
-  - list:
-    - listitem: cmdx4xli60000vxpbmd4ythmy - otzorta@gmail.com (customer)
-    - listitem: cmdx6mmzc000013x4o9bv06at - test@example.com (customer)
-    - listitem: cmdxls5uj00184mz9lqzw0cuv - test.customer@example.com (customer)
   - heading "Apollo Client Test" [level=3]
   - paragraph: Success!
   - text: "{ \"users\": [ { \"__typename\": \"User\", \"id\": \"cmdx4xli60000vxpbmd4ythmy\", \"name\": \"thomas malandris\", \"email\": \"otzorta@gmail.com\" } ] }"

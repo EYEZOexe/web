@@ -12,17 +12,17 @@ export interface TestUser {
   role?: 'customer' | 'admin'
 }
 
-// Test users for E2E testing
+// Test users for E2E testing - using timestamps to ensure uniqueness
 export const TEST_USERS = {
   customer: {
     name: 'Test Customer',
-    email: 'test.customer@example.com',
+    email: `test.customer.${Date.now()}@example.com`,
     password: 'testpass123',
     role: 'customer' as const,
   },
   admin: {
     name: 'Test Admin',
-    email: 'test.admin@example.com',
+    email: `test.admin.${Date.now()}@example.com`,
     password: 'adminpass123',
     role: 'admin' as const,
   },
@@ -38,6 +38,9 @@ export const TEST_USERS = {
  * Create a test user in the database via GraphQL API
  */
 export async function createTestUser(page: Page, user: TestUser): Promise<void> {
+  // First try to delete the user if they already exist
+  await deleteTestUser(page, user.email)
+  
   const response = await page.request.post('http://localhost:4000/api/graphql', {
     data: {
       query: `
@@ -66,10 +69,13 @@ export async function createTestUser(page: Page, user: TestUser): Promise<void> 
   const result = await response.json()
   
   if (result.errors) {
-    // User might already exist, which is fine
-    if (!result.errors[0]?.message?.includes('already exists')) {
-      throw new Error(`Failed to create test user: ${result.errors[0]?.message}`)
+    // Check if it's a unique constraint error and handle gracefully
+    const errorMessage = result.errors[0]?.message || ''
+    if (errorMessage.includes('Unique constraint failed') && errorMessage.includes('email')) {
+      console.warn(`Test user ${user.email} already exists, continuing...`)
+      return
     }
+    throw new Error(`Failed to create test user: ${errorMessage}`)
   }
 }
 
@@ -77,36 +83,41 @@ export async function createTestUser(page: Page, user: TestUser): Promise<void> 
  * Delete a test user from the database
  */
 export async function deleteTestUser(page: Page, email: string): Promise<void> {
-  // First get the user ID
-  const getUserResponse = await page.request.post('http://localhost:4000/api/graphql', {
-    data: {
-      query: `
-        query GetUser($email: String!) {
-          users(where: { email: { equals: $email } }) {
-            id
-          }
-        }
-      `,
-      variables: { email },
-    },
-  })
-
-  const getUserResult = await getUserResponse.json()
-  const userId = getUserResult.data?.users?.[0]?.id
-
-  if (userId) {
-    await page.request.post('http://localhost:4000/api/graphql', {
+  try {
+    // First get the user ID
+    const getUserResponse = await page.request.post('http://localhost:4000/api/graphql', {
       data: {
         query: `
-          mutation DeleteUser($id: ID!) {
-            deleteUser(where: { id: $id }) {
+          query GetUser($email: String!) {
+            users(where: { email: { equals: $email } }) {
               id
             }
           }
         `,
-        variables: { id: userId },
+        variables: { email },
       },
     })
+
+    const getUserResult = await getUserResponse.json()
+    const userId = getUserResult.data?.users?.[0]?.id
+
+    if (userId) {
+      await page.request.post('http://localhost:4000/api/graphql', {
+        data: {
+          query: `
+            mutation DeleteUser($id: ID!) {
+              deleteUser(where: { id: $id }) {
+                id
+              }
+            }
+          `,
+          variables: { id: userId },
+        },
+      })
+    }
+  } catch (error) {
+    // Silently ignore deletion errors - user might not exist
+    console.debug(`Could not delete user ${email}:`, error)
   }
 }
 
@@ -194,16 +205,48 @@ export async function signOutUser(page: Page): Promise<void> {
  * Check if user is currently authenticated
  */
 export async function isAuthenticated(page: Page): Promise<boolean> {
-  // Check for user-specific elements that only appear when logged in
-  const userMenu = page.locator('[data-testid="user-menu"]')
-  const signOutButton = page.locator('button').filter({ hasText: /sign out|logout/i })
-  const dashboard = page.locator('a').filter({ hasText: /dashboard|my account/i })
-  
-  return (
-    (await userMenu.isVisible()) ||
-    (await signOutButton.isVisible()) ||
-    (await dashboard.isVisible())
-  )
+  try {
+    // Method 1: Check for NextAuth session via client-side script
+    const hasSession = await page.evaluate(() => {
+      // Check if there's a session in localStorage or sessionStorage
+      const sessionToken = document.cookie.includes('next-auth.session-token') || 
+                          document.cookie.includes('__Secure-next-auth.session-token');
+      return sessionToken;
+    });
+    
+    if (hasSession) {
+      return true;
+    }
+    
+    // Method 2: Try accessing a protected route and see if we get redirected
+    const currentUrl = page.url();
+    await page.goto('/dashboard');
+    await page.waitForLoadState('networkidle');
+    
+    const isOnDashboard = page.url().includes('/dashboard');
+    const wasRedirectedToSignin = page.url().includes('/auth/signin');
+    
+    // Restore original URL
+    if (currentUrl !== page.url()) {
+      await page.goto(currentUrl);
+      await page.waitForLoadState('networkidle');
+    }
+    
+    return isOnDashboard && !wasRedirectedToSignin;
+  } catch (error) {
+    // Fallback: Check for UI elements that indicate authentication
+    const userMenu = page.locator('[data-testid="user-menu"]')
+    const signOutButton = page.locator('button').filter({ hasText: /sign out|logout/i })
+    const dashboard = page.locator('a').filter({ hasText: /dashboard|my account/i })
+    const profileLink = page.locator('a').filter({ hasText: /profile|account/i })
+    
+    return (
+      (await userMenu.isVisible()) ||
+      (await signOutButton.isVisible()) ||
+      (await dashboard.isVisible()) ||
+      (await profileLink.isVisible())
+    );
+  }
 }
 
 /**

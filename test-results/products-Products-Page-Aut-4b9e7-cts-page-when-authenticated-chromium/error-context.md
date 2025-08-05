@@ -1,23 +1,55 @@
 # Page snapshot
 
 ```yaml
-- heading "Welcome back" [level=1]
-- paragraph: Enter your credentials to access your account
-- heading "Sign In" [level=3]
-- paragraph: Choose your preferred sign in method
-- button "Google":
-  - img
-  - text: Google
-- button "GitHub":
-  - img
-  - text: GitHub
-- text: Or continue with Email
-- textbox "Email": test.customer@example.com
-- text: Password
-- textbox "Password": testpass123
-- button "Sign In"
-- text: Don't have an account?
-- link "Sign up":
-  - /url: /auth/signup
+- heading "Products" [level=1]
+- heading "Products (6)" [level=1]
+- combobox:
+  - option "All Types" [selected]
+  - option "Courses"
+  - option "Files"
+  - option "Licenses"
+  - option "Subscriptions"
+- combobox:
+  - option "Sort by Price" [selected]
+  - option "Low to High"
+  - option "High to Low"
+- text: Course Available
+- heading "Complete Next.js 15 Course" [level=3]
+- paragraph: Web Development Courses
+- paragraph: Master Next.js 15 with App Router, TypeScript, and modern React patterns
+- text: $149.99 $249.99 1 year access
+- button "Buy Now - $149.99"
+- text: File Available
+- heading "React TypeScript Starter Kit" [level=3]
+- paragraph: Development Tools
+- paragraph: Production-ready React TypeScript template with best practices
+- text: $29.99 $49.99 5 downloads
+- button "Buy Now - $29.99"
+- text: File Available
+- heading "UI Design System Pro" [level=3]
+- paragraph: UI/UX Design
+- paragraph: Comprehensive UI design system with components, patterns, and guidelines
+- text: $199.99 $299.99 3 downloads
+- button "Buy Now - $199.99"
+- text: Course Available
+- heading "Complete Next.js 15 Course" [level=3]
+- paragraph: Web Development Courses
+- paragraph: Master Next.js 15 with App Router, TypeScript, and modern React patterns
+- text: $0.00 $249.99
+- paragraph: 1 variant available
+- text: 1 year access
+- button "Buy Now - $0.00"
+- text: File Available
+- heading "React TypeScript Starter Kit" [level=3]
+- paragraph: Development Tools
+- paragraph: Production-ready React TypeScript template with best practices
+- text: $29.99 $49.99 5 downloads
+- button "Buy Now - $29.99"
+- text: File Available
+- heading "UI Design System Pro" [level=3]
+- paragraph: UI/UX Design
+- paragraph: Comprehensive UI design system with components, patterns, and guidelines
+- text: $199.99 $299.99 3 downloads
+- button "Buy Now - $199.99"
 - alert
 ```

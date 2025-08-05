@@ -1,23 +1,10 @@
 # Page snapshot
 
 ```yaml
-- heading "Welcome back" [level=1]
-- paragraph: Enter your credentials to access your account
-- heading "Sign In" [level=3]
-- paragraph: Choose your preferred sign in method
-- button "Google":
-  - img
-  - text: Google
-- button "GitHub":
-  - img
-  - text: GitHub
-- text: Or continue with Email
-- textbox "Email": test.customer@example.com
-- text: Password
-- textbox "Password": testpass123
-- button "Sign In"
-- text: Don't have an account?
-- link "Sign up":
-  - /url: /auth/signup
+- heading "Products" [level=1]
+- heading "Error loading products" [level=3]
+- paragraph: "Response not successful: Received status code 500"
+- group: Technical details
+- button "Try Again"
 - alert
 ```

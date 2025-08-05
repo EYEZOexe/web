@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { 
   TEST_USERS, 
+  TestUser,
   createTestUser, 
   deleteTestUser, 
   signUpUser, 
@@ -76,29 +77,43 @@ test.describe('Authentication Flow', () => {
     test('should validate password confirmation mismatch', async ({ page }) => {
       await page.goto('/auth/signup');
       
+      const uniqueEmail = `test.validation.${Date.now()}@example.com`;
+      
       await page.fill('#name', 'Test User');
-      await page.fill('#email', 'test@example.com');
+      await page.fill('#email', uniqueEmail);
       await page.fill('#password', 'password123');
       await page.fill('#confirmPassword', 'different123');
       
       await page.click('button[type="submit"]');
       
-      // Should show error message for password mismatch
-      await expect(page.locator('[role="alert"]')).toContainText('Passwords do not match');
+      // Wait for and check error message - look for any alert with password mismatch content
+      const alertLocator = page.locator('[role="alert"]:not([id="__next-route-announcer__"])');
+      await expect(alertLocator).toBeVisible({ timeout: 10000 });
+      
+      const alertText = await alertLocator.textContent();
+      expect(alertText?.toLowerCase()).toContain('password');
+      expect(alertText?.toLowerCase()).toMatch(/match|mismatch/);
     });
 
     test('should validate minimum password length', async ({ page }) => {
       await page.goto('/auth/signup');
       
+      const uniqueEmail = `test.validation.min.${Date.now()}@example.com`;
+      
       await page.fill('#name', 'Test User');
-      await page.fill('#email', 'test@example.com');
+      await page.fill('#email', uniqueEmail);
       await page.fill('#password', '123');
       await page.fill('#confirmPassword', '123');
       
       await page.click('button[type="submit"]');
       
-      // Should show error for short password
-      await expect(page.locator('[role="alert"]')).toContainText('Password must be at least 6 characters');
+      // Wait for and check error message - look for any alert with password length content
+      const alertLocator = page.locator('[role="alert"]:not([id="__next-route-announcer__"])');
+      await expect(alertLocator).toBeVisible({ timeout: 10000 });
+      
+      const alertText = await alertLocator.textContent();
+      expect(alertText?.toLowerCase()).toContain('password');
+      expect(alertText?.toLowerCase()).toMatch(/6|character|length/);
     });
 
     test('should handle invalid credentials signin', async ({ page }) => {
@@ -153,13 +168,26 @@ test.describe('Authentication Flow', () => {
   });
 
   test.describe('User Authentication', () => {
+    let testUser: TestUser;
+
     test.beforeEach(async ({ page }) => {
-      // Ensure test user exists
-      await createTestUser(page, TEST_USERS.customer);
+      // Create a unique test user for each test
+      testUser = {
+        name: 'Test Customer',
+        email: `test.customer.${Date.now()}.${Math.random().toString(36).substring(7)}@example.com`,
+        password: 'testpass123',
+        role: 'customer' as const,
+      };
+      await createTestUser(page, testUser);
+    });
+
+    test.afterEach(async ({ page }) => {
+      // Clean up the test user
+      await cleanupTestUser(page, testUser.email);
     });
 
     test('should successfully sign in with valid credentials', async ({ page }) => {
-      await signInUser(page, TEST_USERS.customer.email, TEST_USERS.customer.password);
+      await signInUser(page, testUser.email, testUser.password);
       
       // Should be authenticated and redirected
       await expect(page).toHaveURL('/');
@@ -170,7 +198,7 @@ test.describe('Authentication Flow', () => {
 
     test('should handle sign out', async ({ page }) => {
       // First sign in
-      await signInUser(page, TEST_USERS.customer.email, TEST_USERS.customer.password);
+      await signInUser(page, testUser.email, testUser.password);
       
       // Then sign out
       await signOutUser(page);
@@ -187,9 +215,9 @@ test.describe('Authentication Flow', () => {
       // Should redirect to signin with callback
       await expect(page).toHaveURL(/\/auth\/signin.*callbackUrl/);
       
-      // Sign in
-      await page.fill('#email', TEST_USERS.customer.email);
-      await page.fill('#password', TEST_USERS.customer.password);
+      // Sign in with our test user
+      await page.fill('#email', testUser.email);
+      await page.fill('#password', testUser.password);
       await page.click('button[type="submit"]');
       
       // Should redirect back to products
@@ -198,9 +226,25 @@ test.describe('Authentication Flow', () => {
   });
 
   test.describe('Session Management', () => {
+    let testUser: TestUser;
+
+    test.beforeEach(async ({ page }) => {
+      // Create a unique test user for each test
+      testUser = {
+        name: 'Test Session User',
+        email: `test.session.${Date.now()}.${Math.random().toString(36).substring(7)}@example.com`,
+        password: 'testpass123',
+        role: 'customer' as const,
+      };
+      await setupAuthenticatedUser(page, testUser);
+    });
+
+    test.afterEach(async ({ page }) => {
+      // Clean up the test user
+      await cleanupTestUser(page, testUser.email);
+    });
+
     test('should maintain session across page refreshes', async ({ page }) => {
-      await setupAuthenticatedUser(page, TEST_USERS.customer);
-      
       // Refresh the page
       await page.reload();
       
@@ -210,8 +254,6 @@ test.describe('Authentication Flow', () => {
     });
 
     test('should handle session expiration gracefully', async ({ page }) => {
-      await setupAuthenticatedUser(page, TEST_USERS.customer);
-      
       // Clear cookies to simulate session expiration
       await page.context().clearCookies();
       

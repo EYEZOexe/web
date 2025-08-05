@@ -1,23 +1,85 @@
 # Page snapshot
 
 ```yaml
-- heading "Welcome back" [level=1]
-- paragraph: Enter your credentials to access your account
-- heading "Sign In" [level=3]
-- paragraph: Choose your preferred sign in method
-- button "Google":
-  - img
-  - text: Google
-- button "GitHub":
-  - img
-  - text: GitHub
-- text: Or continue with Email
-- textbox "Email": test.customer@example.com
-- text: Password
-- textbox "Password": testpass123
-- button "Sign In"
-- text: Don't have an account?
-- link "Sign up":
-  - /url: /auth/signup
+- banner:
+  - link "Digital Products Platform":
+    - /url: /
+  - text: Test Dashboard User
+  - button "Sign Out"
+- complementary:
+  - navigation:
+    - heading "Dashboard" [level=2]
+    - link "📊 Overview Dashboard overview and statistics":
+      - /url: /dashboard
+    - link "📚 My Library Access your purchased products":
+      - /url: /dashboard/library
+    - link "🛍️ Orders View order history and status":
+      - /url: /dashboard/orders
+    - link "⬇️ Downloads Download history and files":
+      - /url: /dashboard/downloads
+    - link "⚙️ Account Manage your account settings":
+      - /url: /dashboard/account
+    - link "🛒 Browse Products Discover new products":
+      - /url: /products
+- main:
+  - heading "Dashboard" [level=1]
+  - paragraph: Welcome back,
+  - paragraph: Total Spent
+  - paragraph: $0.00
+  - text: 💰
+  - paragraph: Total Orders
+  - paragraph: "0"
+  - text: 🛍️
+  - paragraph: Active Licenses
+  - paragraph: "0"
+  - text: 🔑
+  - link "📚 My Library Access your content":
+    - /url: /dashboard/library
+    - text: 📚
+    - heading "My Library" [level=3]
+    - paragraph: Access your content
+  - link "📋 Order History View past purchases":
+    - /url: /dashboard/orders
+    - text: 📋
+    - heading "Order History" [level=3]
+    - paragraph: View past purchases
+  - link "⬇️ Downloads Download history":
+    - /url: /dashboard/downloads
+    - text: ⬇️
+    - heading "Downloads" [level=3]
+    - paragraph: Download history
+  - link "🛒 Browse Products Discover new content":
+    - /url: /products
+    - text: 🛒
+    - heading "Browse Products" [level=3]
+    - paragraph: Discover new content
+  - heading "Recent Orders" [level=3]
+  - link "View All":
+    - /url: /dashboard/orders
+    - button "View All"
+  - text: 🛍️
+  - paragraph: No orders yet
+  - link "Browse Products":
+    - /url: /products
+    - button "Browse Products"
+  - heading "Quick Links" [level=3]
+  - link "⚙️ Account Settings Manage your profile":
+    - /url: /dashboard/account
+    - text: ⚙️
+    - paragraph: Account Settings
+    - paragraph: Manage your profile
+  - link "🔍 Browse Products Find new digital products":
+    - /url: /products
+    - text: 🔍
+    - paragraph: Browse Products
+    - paragraph: Find new digital products
+  - link "📧 Contact Support Get help with your account":
+    - /url: mailto:support@yoursite.com
+    - text: 📧
+    - paragraph: Contact Support
+    - paragraph: Get help with your account
+  - heading "Apollo Client Test" [level=3]
+  - paragraph: Success!
+  - text: "{ \"users\": [ { \"__typename\": \"User\", \"id\": \"cmdx4xli60000vxpbmd4ythmy\", \"name\": \"thomas malandris\", \"email\": \"otzorta@gmail.com\" } ] }"
 - alert
 ```

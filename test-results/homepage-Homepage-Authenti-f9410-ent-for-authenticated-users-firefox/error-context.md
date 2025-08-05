@@ -1,23 +1,43 @@
 # Page snapshot
 
 ```yaml
-- heading "Welcome back" [level=1]
-- paragraph: Enter your credentials to access your account
-- heading "Sign In" [level=3]
-- paragraph: Choose your preferred sign in method
-- button "Google":
-  - img
-  - text: Google
-- button "GitHub":
-  - img
-  - text: GitHub
-- text: Or continue with Email
-- textbox "Email": test.customer@example.com
-- text: Password
-- textbox "Password": testpass123
-- button "Sign In"
-- text: Don't have an account?
-- link "Sign up":
-  - /url: /auth/signup
+- banner:
+  - heading "Digital Products Platform" [level=1]
+  - text: Welcome, Test Customer
+  - button "Sign Out"
+- navigation:
+  - link "Home":
+    - /url: /
+  - link "Products":
+    - /url: /products
+  - link "Dashboard":
+    - /url: /dashboard
+- main:
+  - heading "Secure Digital Product Marketplace" [level=2]
+  - paragraph: Buy and sell digital products with confidence. Powered by Next.js, KeystoneJS, and NextAuth.js
+  - heading "Browse Products" [level=3]
+  - paragraph: Discover amazing digital products, courses, and licenses.
+  - link "Browse Now":
+    - /url: /products
+    - button "Browse Now"
+  - heading "My Library" [level=3]
+  - paragraph: Access your purchased courses, files, and licenses.
+  - link "View Library":
+    - /url: /dashboard/library
+    - button "View Library"
+  - heading "Order History" [level=3]
+  - paragraph: Track your purchases and download history.
+  - link "View Orders":
+    - /url: /dashboard/orders
+    - button "View Orders"
+  - heading "Platform Features" [level=3]
+  - heading "🔐 Secure Authentication" [level=4]
+  - paragraph: Multiple sign-in options with NextAuth.js including Google, GitHub, and email/password.
+  - heading "💳 Stripe Integration" [level=4]
+  - paragraph: Secure payments powered by Stripe with automatic license generation.
+  - heading "📁 File Management" [level=4]
+  - paragraph: Secure file uploads and downloads with access control.
+  - heading "🎯 Admin Dashboard" [level=4]
+  - paragraph: Powerful KeystoneJS admin interface for content management.
 - alert
 ```

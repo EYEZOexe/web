@@ -1,8 +1,29 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
+import { SessionProvider } from 'next-auth/react'
 import ProductsList from '../products-list'
 import { GET_PRODUCTS } from '@/lib/graphql/queries'
+
+// Test session data
+const mockSession = {
+  user: { 
+    id: 'test-user', 
+    email: 'test@example.com', 
+    name: 'Test User',
+    role: 'USER'
+  },
+  expires: '2024-12-31T23:59:59.000Z'
+}
+
+// Test wrapper component
+const TestWrapper = ({ children, mocks }: { children: React.ReactNode, mocks: any[] }) => (
+  <SessionProvider session={mockSession}>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      {children}
+    </MockedProvider>
+  </SessionProvider>
+)
 
 const mockProducts = [
   {
@@ -93,14 +114,26 @@ const errorMocks = [
 ]
 
 describe('ProductsList Component', () => {
+  const originalConsoleError = console.error
+
+  beforeEach(() => {
+    // Suppress console.error for GraphQL error tests
+    console.error = vi.fn()
+  })
+
+  afterAll(() => {
+    // Restore console.error after all tests
+    console.error = originalConsoleError
+  })
+
   it('renders loading state initially', () => {
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
+      <TestWrapper mocks={mocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
-    // Check for loading skeleton structure
+    // Check for loading skeleton structure immediately (before mocks resolve)
     expect(document.querySelector('.animate-pulse')).toBeDefined()
     // Check for skeleton grid
     expect(document.querySelector('.grid')).toBeDefined()
@@ -108,9 +141,9 @@ describe('ProductsList Component', () => {
 
   it('renders products after loading', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <TestWrapper mocks={mocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
     await waitFor(() => {
@@ -121,9 +154,9 @@ describe('ProductsList Component', () => {
 
   it('displays product details correctly', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <TestWrapper mocks={mocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
     await waitFor(() => {
@@ -135,9 +168,9 @@ describe('ProductsList Component', () => {
 
   it('shows purchase buttons for products', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <TestWrapper mocks={mocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
     await waitFor(() => {
@@ -148,9 +181,9 @@ describe('ProductsList Component', () => {
 
   it('handles GraphQL errors gracefully', async () => {
     render(
-      <MockedProvider mocks={errorMocks} addTypename={false}>
+      <TestWrapper mocks={errorMocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
     await waitFor(() => {
@@ -160,9 +193,9 @@ describe('ProductsList Component', () => {
 
   it('displays product variants when available', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <TestWrapper mocks={mocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
     await waitFor(() => {
@@ -186,9 +219,9 @@ describe('ProductsList Component', () => {
     ]
 
     render(
-      <MockedProvider mocks={emptyMocks} addTypename={false}>
+      <TestWrapper mocks={emptyMocks}>
         <ProductsList />
-      </MockedProvider>
+      </TestWrapper>
     )
 
     await waitFor(() => {

@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterAll } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { SessionProvider } from 'next-auth/react'
 import PurchaseButton from '../purchase-button'
 
 // Mock Stripe
@@ -13,7 +14,27 @@ vi.mock('@/lib/stripe/config', () => ({
 // Mock fetch for API calls
 global.fetch = vi.fn()
 
+// Test session data
+const mockSession = {
+  user: { 
+    id: 'test-user', 
+    email: 'test@example.com', 
+    name: 'Test User',
+    role: 'USER'
+  },
+  expires: '2024-12-31T23:59:59.000Z'
+}
+
+// Wrapper component
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
+  <SessionProvider session={mockSession}>
+    {children}
+  </SessionProvider>
+)
+
 describe('PurchaseButton Component', () => {
+  const originalConsoleError = console.error
+
   const mockProduct = {
     id: 'test-product-id',
     name: 'Test Product',
@@ -25,11 +46,18 @@ describe('PurchaseButton Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    // Suppress console.error for error handling tests
+    console.error = vi.fn()
     mockRedirectToCheckout.mockResolvedValue({ error: null })
   })
 
+  afterAll(() => {
+    // Restore console.error after all tests
+    console.error = originalConsoleError
+  })
+
   it('renders purchase button with formatted price', () => {
-    render(<PurchaseButton product={mockProduct} />)
+    render(<PurchaseButton product={mockProduct} />, { wrapper: TestWrapper })
     
     expect(screen.getByText('Buy Now - $2999.00')).toBeDefined()
   })
@@ -56,7 +84,7 @@ describe('PurchaseButton Component', () => {
       get: () => 'http://localhost:3000'
     })
 
-    render(<PurchaseButton product={mockProduct} />)
+    render(<PurchaseButton product={mockProduct} />, { wrapper: TestWrapper })
     
     const button = screen.getByText('Buy Now - $2999.00')
     fireEvent.click(button)
@@ -74,6 +102,7 @@ describe('PurchaseButton Component', () => {
           price: mockProduct.price,
           currency: mockProduct.currency,
           productType: mockProduct.type,
+          customerEmail: 'test@example.com',
           metadata: {
             productId: mockProduct.id,
             productType: mockProduct.type
@@ -96,7 +125,7 @@ describe('PurchaseButton Component', () => {
   it('shows loading state during purchase', async () => {
     vi.mocked(global.fetch).mockImplementation(() => new Promise(() => {})) // Never resolves
 
-    render(<PurchaseButton product={mockProduct} />)
+    render(<PurchaseButton product={mockProduct} />, { wrapper: TestWrapper })
     
     const button = screen.getByText('Buy Now - $2999.00')
     fireEvent.click(button)
@@ -113,7 +142,7 @@ describe('PurchaseButton Component', () => {
     }
     vi.mocked(global.fetch).mockResolvedValue(mockResponse as any)
 
-    render(<PurchaseButton product={mockProduct} />)
+    render(<PurchaseButton product={mockProduct} />, { wrapper: TestWrapper })
     
     const button = screen.getByText('Buy Now - $2999.00')
     fireEvent.click(button)
@@ -131,7 +160,7 @@ describe('PurchaseButton Component', () => {
     vi.mocked(global.fetch).mockResolvedValue(mockResponse as any)
     mockRedirectToCheckout.mockResolvedValue({ error: { message: 'Stripe error' } })
 
-    render(<PurchaseButton product={mockProduct} />)
+    render(<PurchaseButton product={mockProduct} />, { wrapper: TestWrapper })
     
     const button = screen.getByText('Buy Now - $2999.00')
     fireEvent.click(button)
@@ -149,7 +178,7 @@ describe('PurchaseButton Component', () => {
     ]
 
     products.forEach(({ price, expected }) => {
-      const { unmount } = render(<PurchaseButton product={{ ...mockProduct, price }} />)
+      const { unmount } = render(<PurchaseButton product={{ ...mockProduct, price }} />, { wrapper: TestWrapper })
       expect(screen.getByText(`Buy Now - ${expected}`)).toBeDefined()
       unmount()
     })

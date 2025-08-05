@@ -14,7 +14,7 @@
 - text: Or continue with Full Name
 - textbox "Full Name"
 - text: Email
-- textbox "Email": new.user.1754341773714@example.com
+- textbox "Email": new.user.1754409832177@example.com
 - text: Password
 - textbox "Password": newpass123
 - text: Confirm Password

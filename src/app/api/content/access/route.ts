@@ -12,7 +12,7 @@ interface ContentAccessRequest {
 
 // Initialize Apollo Client for KeystoneJS GraphQL API
 const apolloClient = new ApolloClient({
-  uri: process.env.GRAPHQL_API_URL || 'http://localhost:3001/api/graphql',
+  uri: process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/graphql` : 'http://localhost:4000/api/graphql',
   cache: new InMemoryCache(),
 })
 
@@ -39,7 +39,7 @@ const GET_USER_LICENSES = gql`
       where: {
         user: { id: { equals: $userId } }
         orderItem: { product: { id: { equals: $productId } } }
-        status: { equals: "active" }
+        status: { equals: active }
       }
     ) {
       id
@@ -156,7 +156,7 @@ async function generateDocumentAccess(productFile: any, baseUrl: string, signing
     return { success: false, error: 'Document not configured' }
   }
 
-  // Extract file ID from shareable link
+  // Extract file ID from shareable link (works for both Drive files and Docs)
   const fileId = extractGoogleDriveFileId(productFile.googleDriveShareableLink)
   if (!fileId) {
     return { success: false, error: 'Invalid Google Drive link' }
@@ -174,11 +174,22 @@ async function generateDocumentAccess(productFile: any, baseUrl: string, signing
     .digest('hex')
 
   const accessUrl = `${baseUrl}/api/content/download/drive?fileId=${fileId}&fileName=${encodeURIComponent(productFile.name)}&expires=${expiresAt}&signature=${signature}`
+  
+  // Generate embed URL for Google Docs/Drive files
+  let embedUrl: string
+  if (productFile.googleDriveShareableLink.includes('docs.google.com/document')) {
+    // Google Docs - use the preview embed format
+    embedUrl = `https://docs.google.com/document/d/${fileId}/preview`
+  } else {
+    // Regular Drive files - use the drive preview format
+    embedUrl = `https://drive.google.com/file/d/${fileId}/preview`
+  }
 
   return {
     success: true,
     contentType: 'document',
     accessUrl,
+    embedUrl,
     fileName: productFile.name,
     expiresAt: new Date(expiresAt * 1000).toISOString()
   }
@@ -222,9 +233,14 @@ async function generateVideoAccess(productFile: any, baseUrl: string, signingSec
 
 function extractGoogleDriveFileId(url: string): string | null {
   const patterns = [
+    // Google Docs format: https://docs.google.com/document/d/FILE_ID/edit
+    /docs\.google\.com\/document\/d\/([a-zA-Z0-9-_]+)/,
+    // Google Drive format: https://drive.google.com/file/d/FILE_ID/view
     /\/file\/d\/([a-zA-Z0-9-_]+)/,
+    // Query parameter format
     /id=([a-zA-Z0-9-_]+)/,
-    /^([a-zA-Z0-9-_]+)$/, // Direct file ID
+    // Direct file ID
+    /^([a-zA-Z0-9-_]+)$/, 
   ]
 
   for (const pattern of patterns) {

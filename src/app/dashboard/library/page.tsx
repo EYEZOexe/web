@@ -84,14 +84,43 @@ function LicenseStatusBadge({ status, expiresAt }: { status: string, expiresAt?:
   return <span className={className}>{text}</span>
 }
 
+
+
 export default function LibraryPage() {
-  const { data: session } = useSession()
-  
+  const { data: session, status: sessionStatus } = useSession();
+  // Always call useQuery at the top level to follow React rules of hooks
   const { data, loading, error } = useQuery(GET_USER_LICENSES, {
     variables: { userId: session?.user?.id },
     skip: !session?.user?.id,
-    errorPolicy: 'all', // Show partial data even with errors
-  })
+    errorPolicy: 'all',
+    onCompleted: (data) => {
+      console.log('Library licenses loaded:', data);
+    },
+    onError: (error) => {
+      console.log('Library licenses error:', error);
+    },
+  });
+
+  if (sessionStatus === "loading") {
+    return (
+      <div className="space-y-6">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-48 mb-6"></div>
+          <div className="h-64 bg-gray-200 rounded mb-6"></div>
+          <div className="h-96 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Debug logging
+  console.log('Library Page Debug:', {
+    userId: session?.user?.id,
+    data,
+    error,
+    loading,
+    sessionStatus,
+  });
 
   if (loading) {
     return (
@@ -164,131 +193,133 @@ export default function LibraryPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {licenses.map((license) => (
-            <Card key={license.id} className="p-6">
-              <div className="flex items-start space-x-4">
-                {/* Product Image */}
-                <div className="flex-shrink-0">
-                  {license.orderItem.product.featuredImage?.url ? (
-                    <Image
-                      src={license.orderItem.product.featuredImage.url}
-                      alt={license.orderItem.product.name}
-                      width={80}
-                      height={80}
-                      className="rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
-                      <ProductTypeIcon type={license.orderItem.product.type} />
-                    </div>
-                  )}
-                </div>
-
-                {/* Product Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-semibold text-gray-900 truncate">
-                        {license.orderItem.product.name}
-                      </h3>
-                      {license.orderItem.variantName && (
-                        <p className="text-sm text-gray-600">
-                          {license.orderItem.variantName}
-                        </p>
-                      )}
-                    </div>
-                    <LicenseStatusBadge 
-                      status={license.status} 
-                      expiresAt={license.expiresAt} 
-                    />
-                  </div>
-
-                  {/* License Details */}
-                  <div className="mt-3 text-sm text-gray-600 space-y-1">
-                    <div className="flex justify-between">
-                      <span>Downloads:</span>
-                      <span>
-                        {license.downloadCount}
-                        {license.downloadLimit ? ` / ${license.downloadLimit}` : ' / Unlimited'}
-                      </span>
-                    </div>
-                    
-                    {license.expiresAt && (
-                      <div className="flex justify-between">
-                        <span>Expires:</span>
-                        <span>{formatDate(license.expiresAt)}</span>
-                      </div>
-                    )}
-                    
-                    <div className="flex justify-between">
-                      <span>Purchased:</span>
-                      <span>{formatDate(license.createdAt)}</span>
-                    </div>
-                    
-                    {license.lastAccessedAt && (
-                      <div className="flex justify-between">
-                        <span>Last accessed:</span>
-                        <span>{getRelativeTime(license.lastAccessedAt)}</span>
+          {licenses.map((license) => {
+            const orderItem = license.orderItem;
+            const product = orderItem?.product;
+            return (
+              <Card key={license.id} className="p-6">
+                <div className="flex items-start space-x-4">
+                  {/* Product Image */}
+                  <div className="flex-shrink-0">
+                    {product?.featuredImage?.url ? (
+                      <Image
+                        src={product.featuredImage.url}
+                        alt={product.name}
+                        width={80}
+                        height={80}
+                        className="rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                        <ProductTypeIcon type={product?.type} />
                       </div>
                     )}
                   </div>
 
-                  {/* Files */}
-                  {license.orderItem.product.files.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="text-sm font-medium text-gray-900 mb-2">
-                        Available Files ({license.orderItem.product.files.length})
-                      </h4>
-                      <div className="space-y-1">
-                        {license.orderItem.product.files.slice(0, 3).map((file) => (
-                          <div 
-                            key={file.id} 
-                            className="flex items-center justify-between text-sm bg-gray-50 p-2 rounded"
-                          >
-                            <div className="flex items-center space-x-2">
-                              <span className="text-xs">📄</span>
-                              <span className="truncate">{file.name}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              {file.fileSize && (
-                                <span className="text-xs text-gray-500">
-                                  {formatFileSize(file.fileSize)}
-                                </span>
-                              )}
-                              <Button size="sm" variant="outline">
-                                Download
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
-                        
-                        {license.orderItem.product.files.length > 3 && (
-                          <p className="text-xs text-gray-500 text-center py-1">
-                            +{license.orderItem.product.files.length - 3} more files
+                  {/* Product Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-semibold text-gray-900 truncate">
+                          {product?.name || <span className="text-gray-400">Product unavailable</span>}
+                        </h3>
+                        {orderItem?.variantName && (
+                          <p className="text-sm text-gray-600">
+                            {orderItem.variantName}
                           </p>
                         )}
                       </div>
+                      <LicenseStatusBadge 
+                        status={license.status} 
+                        expiresAt={license.expiresAt} 
+                      />
                     </div>
-                  )}
 
-                  {/* Actions */}
-                  <div className="mt-4 flex space-x-2">
-                    <Link href={`/dashboard/library/${license.id}`}>
-                      <Button size="sm">View Details</Button>
-                    </Link>
-                    
-                    {license.orderItem.product.type === 'course' && (
-                      <Link href={`/products/${license.orderItem.product.slug}`}>
-                        <Button size="sm" variant="outline">
-                          Access Course
-                        </Button>
-                      </Link>
+                    {/* License Details */}
+                    <div className="mt-3 text-sm text-gray-600 space-y-1">
+                      <div className="flex justify-between">
+                        <span>Downloads:</span>
+                        <span>
+                          {license.downloadCount}
+                          {license.downloadLimit ? ` / ${license.downloadLimit}` : ' / Unlimited'}
+                        </span>
+                      </div>
+                      
+                      {license.expiresAt && (
+                        <div className="flex justify-between">
+                          <span>Expires:</span>
+                          <span>{formatDate(license.expiresAt)}</span>
+                        </div>
+                      )}
+                      
+                      <div className="flex justify-between">
+                        <span>Purchased:</span>
+                        <span>{formatDate(license.createdAt)}</span>
+                      </div>
+                      
+                      {license.lastAccessedAt && (
+                        <div className="flex justify-between">
+                          <span>Last accessed:</span>
+                          <span>{getRelativeTime(license.lastAccessedAt)}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Files */}
+                    {product?.files && product.files.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="text-sm font-medium text-gray-900 mb-2">
+                          Available Files ({product.files.length})
+                        </h4>
+                        <div className="space-y-1">
+                          {product.files.slice(0, 3).map((file) => (
+                            <div 
+                              key={file.id} 
+                              className="flex items-center justify-between text-sm bg-gray-50 p-2 rounded"
+                            >
+                              <div className="flex items-center space-x-2">
+                                <span className="text-xs">📄</span>
+                                <span className="truncate">{file.name}</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                {file.fileSize && (
+                                  <span className="text-xs text-gray-500">
+                                    {formatFileSize(file.fileSize)}
+                                  </span>
+                                )}
+                                <Button size="sm" variant="outline">
+                                  Download
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                          {product.files.length > 3 && (
+                            <p className="text-xs text-gray-500 text-center py-1">
+                              +{product.files.length - 3} more files
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     )}
+
+                    {/* Actions */}
+                    <div className="mt-4 flex space-x-2">
+                      <Link href={`/dashboard/library/${license.id}`}>
+                        <Button size="sm">View Details</Button>
+                      </Link>
+                      {product?.type === 'course' && product?.slug && (
+                        <Link href={`/products/${product.slug}`}>
+                          <Button size="sm" variant="outline">
+                            Access Course
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

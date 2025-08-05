@@ -6,6 +6,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { CreditCard, Loader2 } from 'lucide-react'
 
 interface Product {
@@ -42,6 +43,7 @@ export default function PurchaseButton({
   className = '',
   children 
 }: PurchaseButtonProps) {
+  const { data: session } = useSession()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -49,6 +51,9 @@ export default function PurchaseButton({
     try {
       setIsLoading(true)
       setError(null)
+
+      // Use provided email or fall back to session email
+      const emailToUse = customerEmail || session?.user?.email
 
       // Call our checkout API
       const response = await fetch('/api/stripe/checkout', {
@@ -63,7 +68,7 @@ export default function PurchaseButton({
           price: formatPrice(product.price),
           currency: product.currency,
           productType: product.type,
-          customerEmail,
+          customerEmail: emailToUse,
           metadata: {
             productId: product.id,
             productType: product.type,

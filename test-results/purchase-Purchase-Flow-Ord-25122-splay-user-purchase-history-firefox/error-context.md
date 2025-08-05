@@ -1,23 +1,26 @@
 # Page snapshot
 
 ```yaml
-- heading "Welcome back" [level=1]
-- paragraph: Enter your credentials to access your account
-- heading "Sign In" [level=3]
-- paragraph: Choose your preferred sign in method
-- button "Google":
-  - img
-  - text: Google
-- button "GitHub":
-  - img
-  - text: GitHub
-- text: Or continue with Email
-- textbox "Email": test.customer@example.com
-- text: Password
-- textbox "Password": testpass123
-- button "Sign In"
-- text: Don't have an account?
-- link "Sign up":
-  - /url: /auth/signup
+- banner:
+  - link "Digital Products Platform":
+    - /url: /
+  - text: Test Customer
+  - button "Sign Out"
+- complementary:
+  - navigation:
+    - heading "Dashboard" [level=2]
+    - link "📊 Overview Dashboard overview and statistics":
+      - /url: /dashboard
+    - link "📚 My Library Access your purchased products":
+      - /url: /dashboard/library
+    - link "🛍️ Orders View order history and status":
+      - /url: /dashboard/orders
+    - link "⬇️ Downloads Download history and files":
+      - /url: /dashboard/downloads
+    - link "⚙️ Account Manage your account settings":
+      - /url: /dashboard/account
+    - link "🛒 Browse Products Discover new products":
+      - /url: /products
+- main
 - alert
 ```

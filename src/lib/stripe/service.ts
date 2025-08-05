@@ -397,12 +397,21 @@ async function createOrderFromStripeSession(
       // Add user connection if available
       if (customerData.customer) {
         licenseData.user = customerData.customer
+        console.log(`Creating license with user connection: ${customerData.customer.connect.id}`)
+      } else {
+        console.log('Creating license without user connection (guest purchase)')
       }
 
-      await apolloClient.mutate({
+      const { data: licenseResult } = await apolloClient.mutate({
         mutation: CREATE_LICENSE,
         variables: { data: licenseData }
       })
+
+      if (licenseResult?.createLicense) {
+        console.log(`License created successfully: ${licenseResult.createLicense.id}`)
+      } else {
+        console.error('Failed to create license - no result returned')
+      }
     }
 
     console.log(`Order created successfully: ${order.orderNumber}`)
